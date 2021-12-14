@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:qrscan/qrscan.dart' as scanner;
-
+import 'package:lottery_checker/screens/scan_page.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -10,7 +9,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
   String scanResult = "";
 
   @override
@@ -22,21 +20,44 @@ class _HomeState extends State<Home> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: const [
-            Text("ตรวจล็อตเตอรี่", style: TextStyle(fontSize: 24),),
+            Text(
+              "ตรวจล็อตเตอรี่",
+              style: TextStyle(fontSize: 24),
+            ),
           ],
         ),
       ),
-      body: SingleChildScrollView(child: Column(children: const [
-        Text("43234342"),
-        Text("312231"),
-      ],),),
+      body: Padding(
+        padding: const EdgeInsets.all(35.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+
+          children: [
+            const Text("ผลการตรวจ"),
+            const SizedBox(
+              height: 30,
+            ),
+            Text(
+              scanResult,
+              style: const TextStyle(fontSize: 25),
+            ),bottonScan("สแกน", const ScanPage())
+          ],
+        ),
+      ),
     );
   }
 
-  startScan() async {
-    String? cameraScanResult = await scanner.scan();
-    setState(() {
-      scanResult = cameraScanResult!;
-    });
+  Widget bottonScan(String text, Widget page) {
+    // ignore: deprecated_member_use
+    return FlatButton(
+      padding: const EdgeInsets.all(10.0),
+      child: Text(text, style: const TextStyle(fontSize: 24),),
+      onPressed: () {
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => page));
+      },
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0), side: const BorderSide(color: Colors.purple, width: 3.0)),
+    );
   }
 }
